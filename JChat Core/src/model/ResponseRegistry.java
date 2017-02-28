@@ -8,11 +8,11 @@ import java.util.HashMap;
  * 
  * @author Steven Zuchowski
  */
-public class Registry {
+public class ResponseRegistry {
 
 	private HashMap<Integer, ResponseHandler> handlers;
 	
-	public Registry(){
+	public ResponseRegistry(){
 		handlers = new HashMap<Integer, ResponseHandler>();
 	}
 	
@@ -39,8 +39,8 @@ public class Registry {
 	 * @param p A response-type packet that contains a request ID.
 	 */
 	public void process(Packet p){
-		if(handlers.containsKey(p.getParam(Packet.Param.REQUESTID))){
-			handlers.get(p.getParam(Packet.Param.REQUESTID)).handle(p);
+		if(handlers.containsKey(p.getParam(Packet.Param.REQUEST_ID))){
+			handlers.get(p.getParam(Packet.Param.REQUEST_ID)).handle(p);
 		}
 	}
 	

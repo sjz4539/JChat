@@ -10,21 +10,29 @@ import java.util.HashMap;
  * @author Steven Zuchowski
  */
 public abstract class Switchboard{
+	
+	public static final int CONNECTION_TIMEOUT = 2000;
 
-	private HashMap<Conversation, Connection> conversations;
+	private HashMap<Integer, Conversation> conversations;
+	private HashMap<Conversation, Connection> conversationConnections;
 	private ArrayList<Connection> connections;
 	
 	public Switchboard(){
-		conversations = new HashMap<Conversation, Connection>();
+		conversationConnections = new HashMap<Conversation, Connection>();
+		conversations = new HashMap<Integer, Conversation>();
 		connections = new ArrayList<Connection>();
 	}
+	
+	public abstract void process(Packet p);
 
 	public void register(Conversation cv, Connection cn) {
-		conversations.put(cv, cn);
+		conversations.put(cv.getId(), cv);
+		conversationConnections.put(cv, cn);
 	}
 	
 	public void deregister(Conversation cv){
-		conversations.remove(cv);
+		conversations.remove(cv.getId());
+		conversationConnections.remove(cv);
 	}
 	
 	public void addConnection(Connection c){
@@ -32,7 +40,19 @@ public abstract class Switchboard{
 	}
 	
 	public Connection getConnection(Conversation cv){
-		return conversations.get(cv);
+		return conversationConnections.get(cv);
+	}
+	
+	public Conversation getConversation(int id){
+		return conversations.get(id);
+	}
+	
+	public void removeConnection(Connection c){
+		connections.remove(c);
+	}
+	
+	public void sendMessage(String s, User u, Conversation c){
+		
 	}
 	
 	public void shutdown(){
@@ -41,6 +61,6 @@ public abstract class Switchboard{
 		}
 	}
 	
-	public abstract void process(Packet p);
+	
 	
 }

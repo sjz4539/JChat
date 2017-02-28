@@ -11,12 +11,12 @@ public abstract class Hub {
 
 	private static Switchboard switchboard;
 	private static IControlRoom controlRoom;
-	private static Registry registry;
+	private static ResponseRegistry registry;
 
 	public static void init(Switchboard sb, IControlRoom cr){
 		switchboard = sb;
 		controlRoom = cr;
-		registry = new Registry();
+		registry = new ResponseRegistry();
 	}
 	
 	public static void direct(Packet p){

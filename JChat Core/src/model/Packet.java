@@ -13,8 +13,12 @@ public class Packet implements Serializable{
 	}
 	
 	public enum Param{
-		REQUESTID, USERNAME, MESSAGE, CONVERSATION_ID, COMMAND, RESPONSE_CODE
+		REQUEST_ID, USERNAME, USER_ID, MESSAGE, CONVERSATION_ID, COMMAND, RESPONSE_CODE
 	}
+	
+	public static final String COMMAND_SET_USERNAME = "SET_USERNAME";
+	public static final String COMMAND_CONVERSATION_LIST = "CONVERSATION_LIST";
+	public static final String COMMAND_USER_LIST = "USER_LIST";
 	
 	public static final String RESPONSE_OK = "OK";
 	public static final String RESPONSE_MISSING_PARAM = "MISSING_PARAM";
@@ -49,6 +53,15 @@ public class Packet implements Serializable{
 	 */
 	public void putParam(Param p, String s){
 		params.put(p, s);
+	}
+	
+	/**
+	 * Associates an int with a Packet.Param and stores it in this Packet as a String.
+	 * @param p A Packet.Param
+	 * @param s The String to associate with the given Param
+	 */
+	public void putParam(Param p, int i){
+		params.put(p, Integer.toString(i));
 	}
 	
 	/**

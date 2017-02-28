@@ -16,8 +16,10 @@ import java.util.TreeSet;
 public class Conversation {
 
 	private Set<User> users;
+	private int id;
 	
-	public Conversation(){
+	public Conversation(int cid){
+		id = cid;
 		users = Collections.synchronizedSet(new TreeSet<User>());
 	}
 	
@@ -35,4 +37,8 @@ public class Conversation {
 		return users;
 	}
 	
+	public int getId(){
+		return id;
+	}
+
 }
