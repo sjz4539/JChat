@@ -3,8 +3,7 @@ package controller;
 import java.io.IOException;
 
 import model.Connection;
-import model.Hub;
-import model.Mailroom;
+import model.User;
 
 /**
  * The JChat client core. Program entry point.
@@ -16,6 +15,7 @@ import model.Mailroom;
 public class Core {
 	
 	private static final int NUM_WORKER_THREADS = 1;
+	public static User me;
 	
 	public static void init() throws IOException{
 		init(Connection.PORT_NUMBER);

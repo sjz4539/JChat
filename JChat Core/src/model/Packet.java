@@ -16,18 +16,6 @@ public class Packet implements Serializable{
 		REQUEST_ID, USERNAME, USER_ID, MESSAGE, CONVERSATION_ID, COMMAND, RESPONSE_CODE
 	}
 	
-	public static final String COMMAND_SET_USERNAME = "SET_USERNAME";
-	public static final String COMMAND_CONVERSATION_LIST = "CONVERSATION_LIST";
-	public static final String COMMAND_USER_LIST = "USER_LIST";
-	
-	public static final String RESPONSE_OK = "OK";
-	public static final String RESPONSE_MISSING_PARAM = "MISSING_PARAM";
-	public static final String RESPONSE_INVALID_PARAM = "INVALID_PARAM";
-	
-	public static final String USERNAME_TAKEN = "USERNAME_TAKEN";
-	
-	public static final String INVALID_CONVERSATION = "INVALID_CONVERSATION";
-	
 	private Action type;
 	private Map<Param, String> params;
 	private Connection source;
@@ -35,8 +23,6 @@ public class Packet implements Serializable{
 	public Packet(Action t){
 		type = t;
 		params = new HashMap<Param, String>();
-		//loop through the whole packet map for this packet type
-		//grab params out of the map and put them in the array
 	}
 	
 	/**
@@ -104,6 +90,51 @@ public class Packet implements Serializable{
 	 */
 	public Connection getSource(){
 		return source;
+	}
+	
+	public String toString(){
+		StringBuffer buffer = new StringBuffer();
+		if(type == Action.COMMAND){
+			buffer.append("Command: ");
+		}else if(type == Action.MESSAGE){
+			buffer.append("Message: ");
+		}else{
+			buffer.append("Response: ");
+		}
+		
+		for(Param p : getParams().keySet()){
+			switch(p){
+				case REQUEST_ID:
+					buffer.append("Request ID");
+					break;
+				case USERNAME:
+					buffer.append("Username");
+					break;
+				case USER_ID:
+					buffer.append("User ID");
+					break;
+				case MESSAGE:
+					buffer.append("Message");
+					break;
+				case CONVERSATION_ID:
+					buffer.append("Conversation ID");
+					break;
+				case COMMAND:
+					buffer.append("Command");
+					break;
+				case RESPONSE_CODE:
+					buffer.append("Response Code");
+					break;
+				default:
+					break;
+			}		
+					
+			buffer.append("=");
+			buffer.append(getParam(p));
+			buffer.append(", ");
+		}
+		
+		return buffer.toString();
 	}
 	
 }

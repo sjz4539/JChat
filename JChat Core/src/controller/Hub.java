@@ -1,4 +1,6 @@
-package model;
+package controller;
+
+import model.Packet;
 
 /**
  * Inspects packets and directs them to the proper handling class.
@@ -38,6 +40,10 @@ public abstract class Hub {
 	
 	public static Switchboard getSwitchboard(){
 		return switchboard;
+	}
+	
+	public static ResponseRegistry getRegistry(){
+		return registry;
 	}
 	
 }

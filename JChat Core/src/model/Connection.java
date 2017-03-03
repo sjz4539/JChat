@@ -1,10 +1,13 @@
 package model;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+
+import controller.Mailroom;
 
 /**
  * Represents a client-server connection. Listens for incoming
@@ -25,28 +28,46 @@ public class Connection extends Thread{
 	
 	public Connection(Socket s) throws SocketException, IOException{
 		socket = s;
-		s.setSoTimeout(OPERATION_TIMEOUT);
 		oos = new ObjectOutputStream(socket.getOutputStream());
 		ois = new ObjectInputStream(socket.getInputStream());
+		this.start();
 	}
 	
 	public void run(){
 		try{
 			while(!close){
-				Packet nextPacket = (Packet)(ois.readObject());
-				nextPacket.setSource(this);
 				try {
+					Packet nextPacket = (Packet)(ois.readObject());
+					System.out.println("Packet received: " + nextPacket.toString());
+					nextPacket.setSource(this);
 					Mailroom.deliverPacket(nextPacket);
 				} catch (InterruptedException e) {
 					if(!close){
 						e.printStackTrace();
 					}
+				} catch (EOFException e){
+					e.printStackTrace();
+				} catch (SocketException e){
+					e.printStackTrace();
+					close = true;
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				if(oos != null){
+					oos.close();
+				}
+				if(ois != null){
+					ois.close();
+				}
+			} catch (IOException e) {
+				//gg was close
+				e.printStackTrace();
+			}
 		}
 	}
 	

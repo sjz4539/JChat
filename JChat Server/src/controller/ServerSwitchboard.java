@@ -1,7 +1,9 @@
 package controller;
 
-import model.Switchboard;
+import model.Command;
+import model.Connection;
 import model.Packet;
+import model.Packet.Param;
 
 /**
  * Server implementation of Switchboard.
@@ -11,7 +13,11 @@ import model.Packet;
 public class ServerSwitchboard extends Switchboard{
 
 	public void process(Packet p) {
-			
+		
+	}
+	
+	public void addConnection(Connection c){
+		super.addConnection(c);
 	}
 
 }

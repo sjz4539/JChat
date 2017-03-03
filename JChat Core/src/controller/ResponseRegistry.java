@@ -1,6 +1,9 @@
-package model;
+package controller;
 
 import java.util.HashMap;
+
+import model.Packet;
+import model.Packet.Param;
 
 /**
  * Keeps a record of request ids awaiting responses 

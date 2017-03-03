@@ -1,15 +1,16 @@
 package model;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class User {
 
-	private String name;
+	private SimpleStringProperty name;
 	
 	public User(String un){
-		name = un;
+		name = new SimpleStringProperty(un);
 	}
 	
 	public String getName(){
-		return name;
+		return name.getValue();
 	}
-	
 }

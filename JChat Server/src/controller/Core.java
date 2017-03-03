@@ -3,8 +3,6 @@ package controller;
 import java.io.IOException;
 
 import model.Connection;
-import model.Hub;
-import model.Mailroom;
 
 /**
  * The JChat server core. Program entry point.

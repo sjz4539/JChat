@@ -1,15 +1,20 @@
 package view;
 
-import java.io.IOException;
+import java.util.Optional;
 
 import controller.ClientSwitchboard;
 import controller.ControlRoom;
 import controller.Core;
+import controller.Hub;
+import controller.Mailroom;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -17,16 +22,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.Hub;
-import model.Mailroom;
+import model.Conversation;
+import view.dialog.ConnectDialog;
 
 public class Client extends Application{
 	
 	private static Label dummy = new Label("No Active Connections. Use Main->Connect to get started!");
-	
-	private static Button theButton;
-	private static Label status;
-	
+	private static ConnectionTree conTree;
+
 	public static void main(String[] args){
 		launch(args);
 	}
@@ -50,7 +53,12 @@ public class Client extends Application{
 		
 		connectMenuItem.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event) {
-				//show connect dialog
+				Platform.runLater( ()->{
+					ConnectDialog connectDialog = new ConnectDialog();
+					if(connectDialog.showAndWait().get().equals(ButtonType.OK)){
+						((ClientSwitchboard)Hub.getSwitchboard()).connectTo(connectDialog.getHost());
+					}
+				});
 			}
 		});
 		
@@ -60,20 +68,20 @@ public class Client extends Application{
 				primaryStage.fireEvent(new WindowEvent(primaryStage, WindowEvent.WINDOW_CLOSE_REQUEST));
 			}
 		});
-		
-		
-		
 
 		BorderPane root = new BorderPane();
 		root.setCenter(dummy);
 		root.setTop(topMenu);
 		
-		Hub.init(new ClientSwitchboard(), new ControlRoom());
-		Mailroom.setNumWorkers(1);
+		Core.init();
 		
 		setUserAgentStylesheet(STYLESHEET_CASPIAN);
 		primaryStage.setScene(new Scene(root, 500, 500));
 		primaryStage.show();
+		
+	}
+	
+	public static void setActiveConversation(Conversation c){
 		
 	}
 

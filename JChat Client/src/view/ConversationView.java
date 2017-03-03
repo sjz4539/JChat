@@ -9,7 +9,6 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import model.Conversation;
-import model.Hub;
 import model.Packet;
 
 public class ConversationView extends Group{
@@ -66,7 +65,7 @@ public class ConversationView extends Group{
 		message.putParam(Packet.Param.CONVERSATION_ID, con.getId());
 		message.putParam(Packet.Param.USERNAME, "user");
 		
-		Hub.getSwitchboard().getConnection(con).send(message);
+		con.getConnection().send(message);
 		
 		inputBox.clear();
 	}

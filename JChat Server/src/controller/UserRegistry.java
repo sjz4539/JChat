@@ -2,30 +2,26 @@ package controller;
 
 import java.util.HashMap;
 
-import model.User;
+import model.Connection;
 
-public class UserRegistry {
+public abstract class UserRegistry {
 	
-	private HashMap<User, Integer> users;
-	private int uid;
-	
-	public UserRegistry(){
-		users = new HashMap<User, Integer>();
-		uid = 0;
-	}
-	
+	private static HashMap<String, Connection> userConnections = new HashMap<String, Connection>();
+
 	/**
 	 * Registers a user and assigns them a user ID.
 	 * @param u A user to register.
 	 * @return The user id for the newly-registered user.
 	 */
-	public int register(User u){
-		users.put(u, uid);
-		uid++;
-		return users.get(u);
+	public static void register(String un, Connection c){
+		userConnections.put(un, c);
 	}
 	
-	public void deregister(User u){
-		users.remove(u);
+	public static void deregister(String un){
+		userConnections.remove(un);
+	}
+	
+	public Connection getConnection(String un){
+		 return userConnections.get(un);
 	}
 }

@@ -1,6 +1,5 @@
 package controller;
 
-import model.IControlRoom;
 import model.Packet;
 
 /**

@@ -5,8 +5,6 @@ import java.net.ServerSocket;
 import java.net.SocketException;
 
 import model.Connection;
-import model.Hub;
-import model.Switchboard;
 
 /**
  * Monitor class that listens for incoming connection requests
@@ -27,7 +25,9 @@ public class ConnectionListener extends Thread{
 	public void run(){
 		while(!stop){
 			try {
-				Hub.getSwitchboard().addConnection(new Connection(socket.accept()));
+				Connection newCon = new Connection(socket.accept());
+				Hub.getSwitchboard().addConnection(newCon);
+				//UserRegistry.register(new User())
 			} catch (SocketException e){
 				if(!stop){
 					//error setting timeout on new socket

@@ -1,7 +1,9 @@
-package model;
+package controller;
 
 import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import model.Packet;
 
 /**
  * Responsible for processing packets received by connection threads.
