@@ -7,7 +7,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+import controller.Hub;
 import controller.Mailroom;
+import model.Packet.Action;
+import model.Packet.Param;
 
 /**
  * Represents a client-server connection. Listens for incoming
@@ -45,9 +48,8 @@ public class Connection extends Thread{
 					if(!close){
 						e.printStackTrace();
 					}
-				} catch (EOFException e){
-					e.printStackTrace();
-				} catch (SocketException e){
+				} catch (EOFException | SocketException e){
+					//input stream or socket has closed.
 					e.printStackTrace();
 					close = true;
 				}
@@ -58,6 +60,7 @@ public class Connection extends Thread{
 			e.printStackTrace();
 		}finally{
 			try {
+				Hub.getSwitchboard().removeConnection(this);
 				if(oos != null){
 					oos.close();
 				}
@@ -82,9 +85,33 @@ public class Connection extends Thread{
 		}
 	}
 	
+	/**
+	 * Send a terminating packet and closes this connection. 
+	 * If this connection was in the process of delivering a 
+	 * packet to Mailroom, the packet will be lost.
+	 */
 	public void shutdown(){
+		
+		Packet bye = new Packet(Action.COMMAND);
+		bye.putParam(Param.COMMAND, Command.TERMINATE);
+		send(bye);
+		
 		close = true;
-		this.interrupt();
+		interrupt();
+		try {
+			if(oos != null){
+				oos.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			if(ois != null){
+				ois.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

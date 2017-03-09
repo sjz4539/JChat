@@ -27,12 +27,6 @@ public class ConnectionListener extends Thread{
 			try {
 				Connection newCon = new Connection(socket.accept());
 				Hub.getSwitchboard().addConnection(newCon);
-				//UserRegistry.register(new User())
-			} catch (SocketException e){
-				if(!stop){
-					//error setting timeout on new socket
-					e.printStackTrace();
-				}
 			} catch (IOException e) {
 				//error getting i/o streams from new socket
 				e.printStackTrace();

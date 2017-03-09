@@ -16,56 +16,49 @@ import controller.Hub;
  */
 public class Conversation {
 
-	private Set<User> users;
-	private int id;
-	private Connection con;
-	
-	public Conversation(Connection c){
-		this(Hub.getSwitchboard().getConversationId(), c);
-	}
-	
-	public Conversation(Connection c, Set<User> initialUsers){
-		this(Hub.getSwitchboard().getConversationId(), c, initialUsers);
-	}
-	
-	public Conversation(int cid, Connection c){
+	private Set<String> users;
+	private String id;
+
+	public Conversation(String cid){
 		id = cid;
-		con = c;
-		users = Collections.synchronizedSet(new TreeSet<User>());
+		users = Collections.synchronizedSet(new TreeSet<String>());
 	}
 	
-	public Conversation(int cid, Connection c, Set<User> initialUsers){
-		id = cid;
-		con = c;
-		users = Collections.synchronizedSet(new TreeSet<User>());
+	public Conversation(String cid, Set<String> initialUsers){
+		this(cid);
 		setUsers(initialUsers);
 	}
 
-	public void addUser(User u){
-		users.add(u);
+	public void addUser(String un){
+		users.add(un);
 	}
 	
-	public void removeUser(User u){
-		users.remove(u);
+	public void removeUser(String un){
+		users.remove(un);
 	}
 	
-	public Set<User> getUsers(){
+	public Set<String> getUsers(){
 		return users;
 	}
 	
-	public void setUsers(Set<User> newUsers){
+	public String getUsersString(){
+		StringBuffer buf = new StringBuffer();
+		for(String u : users){
+			buf.append(u);
+			buf.append(";");
+		}
+		return buf.toString();
+	}
+	
+	public void setUsers(Set<String> newUsers){
 		users.clear();
-		for(User u : newUsers){
-			users.add(u);
+		for(String un : newUsers){
+			users.add(un);
 		}
 	}
 	
-	public int getId(){
+	public String getId(){
 		return id;
-	}
-	
-	public Connection getConnection(){
-		return con;
 	}
 
 }

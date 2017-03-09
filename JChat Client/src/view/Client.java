@@ -3,7 +3,7 @@ package view;
 import java.util.Optional;
 
 import controller.ClientSwitchboard;
-import controller.ControlRoom;
+import controller.ClientControlRoom;
 import controller.Core;
 import controller.Hub;
 import controller.Mailroom;
@@ -56,7 +56,7 @@ public class Client extends Application{
 				Platform.runLater( ()->{
 					ConnectDialog connectDialog = new ConnectDialog();
 					if(connectDialog.showAndWait().get().equals(ButtonType.OK)){
-						((ClientSwitchboard)Hub.getSwitchboard()).connectTo(connectDialog.getHost());
+						ClientSwitchboard.connectTo(connectDialog.getHost());
 					}
 				});
 			}

@@ -13,7 +13,7 @@ public class Packet implements Serializable{
 	}
 	
 	public enum Param{
-		REQUEST_ID, USERNAME, USER_ID, MESSAGE, CONVERSATION_ID, COMMAND, RESPONSE_CODE
+		MESSAGE, COMMAND, RESPONSE_CODE, REQUEST_ID, SENDER, RECIPIENT, DESTINATION, USERNAME, CONVERSATION_ID, USER_LIST, CONVERSATION_LIST
 	}
 	
 	private Action type;
@@ -78,6 +78,14 @@ public class Packet implements Serializable{
 	}
 	
 	/**
+	 * @param p A Param
+	 * @return True if this Packet has a value set for Param p, false otherwise.
+	 */
+	public boolean hasParam(Param p){
+		return params.containsKey(p);
+	}
+	
+	/**
 	 * Assigns this packet to a connection.
 	 * @param c The source connection this packet was received through.
 	 */
@@ -110,20 +118,23 @@ public class Packet implements Serializable{
 				case USERNAME:
 					buffer.append("Username");
 					break;
-				case USER_ID:
-					buffer.append("User ID");
-					break;
 				case MESSAGE:
 					buffer.append("Message");
 					break;
-				case CONVERSATION_ID:
-					buffer.append("Conversation ID");
+				case DESTINATION:
+					buffer.append("Destination");
+					break;
+				case RECIPIENT:
+					buffer.append("Recipient");
 					break;
 				case COMMAND:
 					buffer.append("Command");
 					break;
 				case RESPONSE_CODE:
 					buffer.append("Response Code");
+					break;
+				case SENDER:
+					buffer.append("Sender");
 					break;
 				default:
 					break;

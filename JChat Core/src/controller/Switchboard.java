@@ -17,58 +17,52 @@ import model.User;
 public abstract class Switchboard{
 	
 	public static final int CONNECTION_TIMEOUT = 2000;
-	
-	//simple conversation id counter
-	private int lastcid = 0;
 
 	//map of ids -> conversations
-	private HashMap<Integer, Conversation> conversations;
+	protected HashMap<String, Conversation> conversations;
 
 	//list of connections
-	private ArrayList<Connection> connections;
+	protected ArrayList<Connection> connections;
 	
 	public Switchboard(){
-		conversations = new HashMap<Integer, Conversation>();
+		conversations = new HashMap<String, Conversation>();
 		connections = new ArrayList<Connection>();
 	}
 	
 	public abstract void process(Packet p);
 	
-	public void addConnection(Connection c){
-		connections.add(c);
+	public void addConnection(Connection cn){
+		connections.add(cn);
 	}
 	
-	public void removeConnection(Connection c){
-		connections.remove(c);
+	public void removeConnection(Connection cn){
+		connections.remove(cn);
 	}
 	
-	public void addConversation(Conversation c){
-		conversations.put(c.getId(), c);
+	public void addConversation(Conversation cv){
+		conversations.put(cv.getId(), cv);
 	}
 	
-	public Conversation getConversation(int id){
+	public Conversation getConversation(String id){
 		return conversations.get(id);
 	}
 	
-	public void removeConversation(Conversation c){
-		conversations.remove(c.getId());
+	public boolean hasConversation(String id){
+		return conversations.containsKey(id);
 	}
 	
-	public int getConversationId(){
-		lastcid++;
-		return lastcid;
+	public void removeConversation(Conversation cv){
+		conversations.remove(cv.getId());
 	}
 	
-	public void sendMessage(String s, Conversation c){
-		
+	public Conversation removeConversation(String id){
+		return conversations.remove(id);
 	}
 	
 	public void shutdown(){
-		for(Connection c : connections){
-			c.shutdown();
+		for(Connection cn : connections){
+			cn.shutdown();
 		}
 	}
-	
-	
-	
+		
 }

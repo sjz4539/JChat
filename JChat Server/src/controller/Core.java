@@ -21,7 +21,7 @@ public class Core {
 	}
 	
 	public static void init(int port) throws IOException{
-		Hub.init(new ServerSwitchboard(), new ControlRoom());
+		Hub.init(new ServerSwitchboard(), new ServerControlRoom());
 		Mailroom.setNumWorkers(NUM_WORKER_THREADS);
 		listener = new ConnectionListener(port);
 		listener.start();

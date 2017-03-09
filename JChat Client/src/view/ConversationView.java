@@ -1,5 +1,7 @@
 package view;
 
+import controller.ClientSwitchboard;
+import controller.Hub;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -62,10 +64,13 @@ public class ConversationView extends Group{
 	public void sendMessage(){
 		Packet message = new Packet(Packet.Action.MESSAGE);
 		message.putParam(Packet.Param.MESSAGE, inputBox.getText());
-		message.putParam(Packet.Param.CONVERSATION_ID, con.getId());
+		message.putParam(Packet.Param.DESTINATION, con.getId());
 		message.putParam(Packet.Param.USERNAME, "user");
 		
-		con.getConnection().send(message);
+		//con.getConnection().send(message);
+		//conversations don't store connections
+		//users only have one connection to the server
+		ClientSwitchboard.getConnectionFor(con).send(message);
 		
 		inputBox.clear();
 	}

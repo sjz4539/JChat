@@ -22,7 +22,7 @@ public class Core {
 	}
 	
 	public static void init(int port) throws IOException{
-		Hub.init(new ClientSwitchboard(), new ControlRoom());
+		Hub.init(new ClientSwitchboard(), new ClientControlRoom());
 		Mailroom.setNumWorkers(NUM_WORKER_THREADS);
 	}
 	
